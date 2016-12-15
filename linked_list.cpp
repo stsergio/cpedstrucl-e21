@@ -1,47 +1,103 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-class LinkedList{
-    struct Node {
-        int x;
-        Node *next;
-    };
 
-public:
-    LinkedList(){
-        head = NULL; // set head to NULL
-    }
+struct list {
+	int data;
+	struct list *next;
+} *node = NULL, *first = NULL, *last = NULL, *node1 = NULL;
 
-    void addValue(int val){
-        Node *n = new Node();   
-        n->x = val;             
-        n->next = head;         
-                               
-        head = n;              
-    }
+class linkedlist {
+	public: 
 
-    int popValue(){
-        Node *n = head;
-        int ret = n->x;
+		
+		void insert() {
+			list *addNew = new list;
+			cout << "Enter value for the node:" << endl;
+			cin >> addNew->data;
+			if(first == NULL) {
+				addNew->next = NULL;
+				first = addNew;
+				last = addNew;
+				cout << "Linked list Created!" << endl;
+			}
+			else {
+				addNew->next = NULL;
+				last->next = addNew;
+				last = addNew;
+				cout << "Data Inserted in the Linked list!" << endl;
+			}
+		}
 
-        head = head->next;
-        delete n;
-        return ret;
-    }
-
-private:
-    Node *head; 
+		
+		void display() {
+			node = first;
+			cout << "List of data in Linked list" << endl;
+			while(node != NULL) {
+				cout << node->data << endl;
+				node = node->next;
+			}
+		}
+	
+		
+		void del() {
+			int count = 0, number, i;
+			for(node = first; node != NULL; node = node->next)
+				count++;
+			display();
+			node = node1 = first;
+			cout << count << " nodes available here!" << endl;
+			cout << "Enter the node number which you want to delete:" << endl;
+			cin >> number;
+			if(number != 1) {
+				if(number <= count) {
+					for(i = 2; i <= number; i++)
+						node = node->next;
+					for(i = 2; i <= number-1; i++)
+						node1 = node1->next;
+					node1->next = node->next;
+					node->next = NULL;
+					node = NULL;
+				}
+				else
+					cout << "Invalid node number!" << endl;
+			}
+			else {
+				first = node->next;
+				node = NULL;
+			}
+			cout << "Node has been deleted successfully!" << endl;
+		}
+	
 };
 
 int main() {
-    LinkedList list;
-
-    list.addValue(5);
-    list.addValue(10);
-    list.addValue(20);
-
-    cout << list.popValue() << endl;
-    cout << list.popValue() << endl;
-    cout << list.popValue() << endl;
-    return 0;
+	int op = 0;
+	linkedlist llist = linkedlist();
+	while(op != 4) {
+		cout << "1. Insert << endl;
+		cout << "2. Delete " << endl;
+		cout << "3. Display " << endl;
+		cout << "4. Exit " << endl;
+		cout << "Enter your choice:" << endl;
+		cin >> op;
+		switch(op) {
+			case 1:
+				llist.insert();
+				break;
+			case 2:
+				llist.del();
+				break;
+			case 3:
+				llist.display();
+				break;
+			case 4:
+				cout << "Bye Bye!" << endl;
+				return 0;
+				break;
+			default:
+				cout << "Invalid choice!" << endl;
+		}
+	}
+	return 0;
 }
