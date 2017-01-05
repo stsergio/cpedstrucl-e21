@@ -1,103 +1,222 @@
-#include<iostream>
-using namespace std;
+#include<stdio.h> 
+#include<stdlib.h>
 
-
-struct list {
+struct node 
+{
 	int data;
-	struct list *next;
-} *node = NULL, *first = NULL, *last = NULL, *node1 = NULL;
+	struct node * next;
+} *head;
+  
+int count() {
+  struct node * n;
+  int c = 0;
+  n = head;
+  while (n != NULL) {
+    n = n -> next;
+    c++;
+  }
+  return c;
+}
 
-class linkedlist {
-	public: 
+void search (int val)
+{
+	struct node * n;
+	int c = 0;
+	n = head;
+	while  (right -> next != NULL)
+}
 
-		
-		void insert() {
-			list *addNew = new list;
-			cout << "Enter value for the node:" << endl;
-			cin >> addNew->data;
-			if(first == NULL) {
-				addNew->next = NULL;
-				first = addNew;
-				last = addNew;
-				cout << "Linked list Created!" << endl;
-			}
-			else {
-				addNew->next = NULL;
-				last->next = addNew;
-				last = addNew;
-				cout << "Data Inserted in the Linked list!" << endl;
-			}
-		}
+void append(int num) 
+{
+  struct node * temp, * right;
+  temp = (struct node * ) malloc(sizeof(struct node));
+  temp -> data = num;
+  right = (struct node * ) head;
+  while (right -> next != NULL)
+    right = right -> next;
+  right -> next = temp;
+  right = temp;
+  right -> next = NULL;
+}
 
-		
-		void display() {
-			node = first;
-			cout << "List of data in Linked list" << endl;
-			while(node != NULL) {
-				cout << node->data << endl;
-				node = node->next;
-			}
-		}
-	
-		
-		void del() {
-			int count = 0, number, i;
-			for(node = first; node != NULL; node = node->next)
-				count++;
-			display();
-			node = node1 = first;
-			cout << count << " nodes available here!" << endl;
-			cout << "Enter the node number which you want to delete:" << endl;
-			cin >> number;
-			if(number != 1) {
-				if(number <= count) {
-					for(i = 2; i <= number; i++)
-						node = node->next;
-					for(i = 2; i <= number-1; i++)
-						node1 = node1->next;
-					node1->next = node->next;
-					node->next = NULL;
-					node = NULL;
-				}
-				else
-					cout << "Invalid node number!" << endl;
-			}
-			else {
-				first = node->next;
-				node = NULL;
-			}
-			cout << "Node has been deleted successfully!" << endl;
-		}
-	
-};
 
-int main() {
-	int op = 0;
-	linkedlist llist = linkedlist();
-	while(op != 4) {
-		cout << "1. Insert << endl;
-		cout << "2. Delete " << endl;
-		cout << "3. Display " << endl;
-		cout << "4. Exit " << endl;
-		cout << "Enter your choice:" << endl;
-		cin >> op;
-		switch(op) {
-			case 1:
-				llist.insert();
-				break;
-			case 2:
-				llist.del();
-				break;
-			case 3:
-				llist.display();
-				break;
-			case 4:
-				cout << "Bye Bye!" << endl;
-				return 0;
-				break;
-			default:
-				cout << "Invalid choice!" << endl;
-		}
+void add(int num) 
+{
+  struct node * temp;
+  temp = (struct node * ) malloc(sizeof(struct node));
+  temp -> data = num;
+  if (head == NULL) {
+    head = temp;
+    head -> next = NULL;
+  } else {
+    temp -> next = head;
+    head = temp;
+  }
+}
+
+void addafter(int num, int loc) 
+{
+  int i;
+  struct node * temp, * left, * right;
+  right = head;
+  for (i = 1; i < loc; i++) {
+    left = right;
+    right = right -> next;
+  }
+  temp = (struct node * ) malloc(sizeof(struct node));
+  temp -> data = num;
+  left -> next = temp;
+  left = temp;
+  left -> next = right;
+  return;
+}
+
+int ddelete(int num) 
+{
+  struct node * temp, * prev;
+  temp = head;
+  while (temp != NULL) {
+    if (temp -> data == num) {
+      if (temp == head) {
+        head = temp -> next;
+        free(temp);
+        return 1;
+      } else {
+        prev -> next = temp -> next;
+        free(temp);
+        return 1;
+      }
+    } else {
+      prev = temp;
+      temp = temp -> next;
+    }
+  }
+  return 0;
+}
+
+void deleteall(int num)
+{
+	if(temp=NULL)
+	return ;
+	else
+	{
+		deleteall(Head->Next);
+		free(Head);
 	}
-	return 0;
+}
+
+void insert(int num) 
+{
+  int c = 1;
+  struct node * temp;
+  temp = head;
+  if (temp == NULL) 
+  {
+    add(num);
+  } else 
+  {
+    while (temp != NULL) 
+	{
+      if (temp -> data < num)
+        c++;
+      temp = temp -> next;
+    }
+    if (c == 0)
+      add(num);
+    else if (c < count())
+      addafter(num, ++c);
+    else
+      append(num);
+  }
+}
+
+
+
+void display(struct node * r) 
+{
+  r = head;
+  if (r == NULL) {
+    return;
+  }
+  while (r != NULL) {
+    printf("%d ", r -> data);
+    r = r -> next;
+  }
+  printf("\n");
+}
+
+int main() 
+{
+  int i, num;
+  struct node * n;
+  head = NULL;
+  insert(1);
+  insert(4);
+  insert(3);
+  insert(4);
+  insert(4);
+  addafter(5, 2);
+  display(n);
+  search(4);
+  
+  
+ while (1) {
+    printf("Linked List Operations\n");
+    printf("===============\n");
+    printf("1.Insert\n");
+    printf("2.Display\n");
+    printf("3.Search\n");
+    printf("4.Size\n");
+    printf("5.Delete\n");
+    printf("6.Delete All\n");
+    printf("7.Exit\n");
+    printf("Enter your choice : ");
+    if (scanf("%d", & i) <= 0) {
+      printf("Enter only an Integer\n");
+      exit(0);
+    } else {
+      switch (i) {
+      case 1:
+        printf("Enter the number to insert : ");
+        scanf("%d", & num);
+        insert(num);
+        break;
+      case 2:
+        if (head == NULL) {
+          printf("List is Empty\n");
+        } else {
+          printf("Element(s) in the list are : ");
+        }
+        display(n);
+        break;
+      case 3:
+      	
+	    break;
+      case 4:
+        printf("Size of the list is %d\n", count());
+        break;
+      case 5:
+        if (head == NULL)
+          printf("List is Empty\n");
+        else {
+          printf("Enter the number to delete : ");
+          scanf("%d", & num);
+          if (ddelete(num))
+            printf("%d deleted successfully\n", num);
+          else
+            printf("%d not found in the list\n", num);
+        }
+        break;
+      case 6:
+      	deleteall(n);
+      	break;
+      case 7:
+        return 0;
+      default:
+        printf("Invalid option\n");
+      }
+    }
+    
+  }
+  return 0;
 }
